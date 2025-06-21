@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노광 시뮬레이션 프로젝트 여정</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            border: 4px solid #0d6efd;
+            top: 0;
+            left: -10px;
+            z-index: 10;
+            transition: transform 0.2s ease-in-out;
+        }
+        .timeline-item:hover::before {
+            transform: scale(1.2);
+        }
+        .timeline-item.active::before {
+            background-color: #0d6efd;
+        }
+        .timeline-content {
+            transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out, transform 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-20px);
+        }
+        .timeline-content.show {
+            max-height: 1000px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .code-block {
+            position: relative;
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-family: 'D2Coding', 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4f5666;
+            color: #e9ecef;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.2s;
+        }
+        .copy-btn:hover {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+        
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-4">노광 시뮬레이션 프로젝트 여정</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                Gemini와 함께 아이디어 구상부터 인터랙티브 웹 애플리케이션 완성까지,
+                점진적으로 발전해 온 개발 과정을 한눈에 살펴보세요.
+            </p>
+        </header>
+
+        <main>
+            <section id="timeline-section" class="mb-24">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">개발 타임라인</h2>
+                <div class="relative max-w-3xl mx-auto">
+                    <div class="absolute left-[0px] h-full border-l-4 border-gray-300"></div>
+                    <div id="timeline-container">
+                    </div>
+                </div>
+            </section>
+            
+            <section id="learnings-section" class="mb-24">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">주요 학습 및 활용 방안</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+                        <h3 class="text-xl font-bold mb-2">신속한 프로토타이핑</h3>
+                        <p class="text-gray-600">아이디어를 빠르게 코드로 구현하고 시각화하여 개념을 검증하는 데 효과적입니다. R Shiny에서 React까지 기술 스택을 빠르게 전환하며 개발을 진행했습니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+                        <h3 class="text-xl font-bold mb-2">반복적 개선 및 디버깅</h3>
+                        <p class="text-gray-600">사용자의 피드백에 맞춰 코드를 점진적으로 수정하고, Plotly.js 로딩 문제와 같은 기술적 오류를 진단하고 해결하며 코드 품질을 향상했습니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
+                        <h3 class="text-xl font-bold mb-2">다국어 및 문서화</h3>
+                        <p class="text-gray-600">한국어와 영어 프롬프트를 모두 이해하고 적절한 언어로 소통하며, 프로젝트 진행 과정을 요약하고 체계적으로 문서화하는 능력을 보여줍니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500">
+                        <h3 class="text-xl font-bold mb-2">새로운 기술 학습 및 적용</h3>
+                        <p class="text-gray-600">React, Plotly.js, Tailwind CSS 등 익숙하지 않은 기술 스택에 대한 초기 진입 장벽을 낮추고, 빠르게 학습하여 실제 프로젝트에 적용했습니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
+                        <h3 class="text-xl font-bold mb-2">코드 리팩토링 및 최적화</h3>
+                        <p class="text-gray-600">분리되어 있던 그래프를 하나로 통합하고, Y축 오프셋을 조정하여 시각적 명확성을 높이는 등 코드 구조를 개선하고 사용자 경험을 최적화했습니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500">
+                        <h3 class="text-xl font-bold mb-2">복잡한 시뮬레이션 구축</h3>
+                        <p class="text-gray-600">향후 더 복잡한 물리 모델을 통합하고, 데이터 시각화 인터랙션을 강화하여 고급 분석 애플리케이션을 개발하는 방향으로 확장 가능합니다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="github-section">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">GitHub 버전 관리 가이드</h2>
+                <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+                    <p class="mb-6 text-gray-700">이 프로젝트처럼 점진적으로 발전하는 코드는 GitHub으로 체계적으로 관리하는 것이 중요합니다. 아래는 주요 Git 명령어 예시입니다.</p>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">1. 로컬 저장소 초기화</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">복사</button>
+                                <code>git init</code>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">2. 파일 추가 및 초기 커밋</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">복사</button>
+                                <code>git add .
+git commit -m "feat: Initial React lithography simulation setup"</code>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">3. 원격 저장소 연결 및 푸시</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">복사</button>
+                                <code>git remote add origin https://github.com/USERNAME/REPO.git
+git push -u origin main</code>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">4. 기능 추가/수정 후 커밋 및 푸시</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">복사</button>
+                                <code>git add .
+git commit -m "feat: Add negative and positive PR selection"
+git push</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t border-gray-300">
+            <p class="text-gray-500">&copy; 2025 Lithography Simulation Project. Generated with Gemini.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timelineData = [
+                {
+                    title: '1. 초기 요청 (R Shiny → Streamlit 변환)',
+                    prompt: '노광 장비 시뮬레이션 프로그램을 R Shiny 코드를 참고하여 Streamlit 코드로 변환 요청.',
+                    solution: '기존 R Shiny 로직을 Python Streamlit으로 포팅하여 웹 기반 시뮬레이션의 기반을 마련했습니다.'
+                },
+                {
+                    title: '2. Canvas 실행 요청 (Streamlit)',
+                    prompt: '생성된 Streamlit 코드를 Canvas에서 직접 실행 요청.',
+                    solution: 'Streamlit의 로컬 환경 실행 특성으로 인해 Canvas 직접 실행이 불가함을 확인하고, 웹 브라우저 환경에 맞는 React로의 전환을 결정했습니다.'
+                },
+                {
+                    title: '3. React 변환 및 Canvas 실행 요청',
+                    prompt: 'Streamlit 대신 React로 다시 만들어 Canvas에서 보여달라는 요청.',
+                    solution: 'Plotly.js를 활용하여 Canvas 환경에서 직접 실행 및 상호작용 가능한 웹 앱 개발을 시작했습니다.'
+                },
+                {
+                    title: '4. 그래프 미표시 오류 수정',
+                    prompt: 'React 앱에서 그래프가 보이지 않는 오류 발생.',
+                    solution: 'Plotly.js 라이브러리 로딩 타이밍 문제를 파악하고, 스크립트 동적 로드 및 로드 완료 상태 관리를 통해 문제를 해결했습니다.'
+                },
+                {
+                    title: '5. Plotly.js 버전 경고 수정',
+                    prompt: 'Plotly.js CDN 버전이 오래되어 경고 메시지 발생.',
+                    solution: 'CDN 링크를 최신 안정 버전(plotly-2.32.0.min.js)으로 업데이트하여 경고를 제거하고 안정성을 높였습니다.'
+                },
+                {
+                    title: '6. Negative/Positive PR 기능 추가',
+                    prompt: 'Negative/Positive PR 선택 기능 및 시각적 구분을 위한 UI 개선 요청.',
+                    solution: 'PR 타입 선택 상태를 추가하고, 이에 따라 패터닝 로직과 버튼 스타일이 동적으로 변경되도록 구현했습니다.'
+                },
+                {
+                    title: '7. 슬릿 외곽부 PR 높이 연속 변화',
+                    prompt: '슬릿 외곽부 광 분포 변화에 따라 PR 높이도 연속적으로 달라지도록 수정 요청.',
+                    solution: 'PR 높이 계산 로직을 임계치 방식에서 빛의 강도에 따라 연속적으로 변화하는 방식으로 개선하여 시뮬레이션의 현실성을 높였습니다.'
+                },
+                {
+                    title: '8. 그래프 요소 분리 및 통합 시각화',
+                    prompt: '가독성을 위해 그래프 요소(슬릿, 강도, PR)를 분리하고 재배치하여 통합된 단일 그래프로 표시 요청.',
+                    solution: 'Plotly의 `shapes` 속성과 Y축 오프셋을 활용하여 모든 시각적 요소를 하나의 그래프에 명확하게 구분하여 배치함으로써 사용자 경험을 최적화했습니다.'
+                }
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineData.forEach((item, index) => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'timeline-item relative mb-8 pl-8 cursor-pointer';
+                itemEl.innerHTML = `
+                    <h3 class="text-xl font-bold text-gray-700">${item.title}</h3>
+                    <div class="timeline-content">
+                        <div class="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h4 class="font-semibold text-blue-600">요청 (Prompt)</h4>
+                            <p class="text-gray-600 mb-2">${item.prompt}</p>
+                            <h4 class="font-semibold text-green-600">해결 (Solution)</h4>
+                            <p class="text-gray-600">${item.solution}</p>
+                        </div>
+                    </div>
+                `;
+                timelineContainer.appendChild(itemEl);
+
+                itemEl.addEventListener('click', () => {
+                    const content = itemEl.querySelector('.timeline-content');
+                    const wasActive = itemEl.classList.contains('active');
+                    
+                    document.querySelectorAll('.timeline-item').forEach(el => {
+                        el.classList.remove('active');
+                        el.querySelector('.timeline-content').classList.remove('show');
+                    });
+                    
+                    if (!wasActive) {
+                        itemEl.classList.add('active');
+                        content.classList.add('show');
+                    }
+                });
+            });
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const code = codeBlock.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                button.innerText = '복사됨!';
+                setTimeout(() => {
+                    button.innerText = '복사';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
